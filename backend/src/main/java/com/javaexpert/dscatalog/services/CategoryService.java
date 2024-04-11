@@ -3,6 +3,7 @@ package com.javaexpert.dscatalog.services;
 import com.javaexpert.dscatalog.dto.CategoryDTO;
 import com.javaexpert.dscatalog.entities.Category;
 import com.javaexpert.dscatalog.repositories.CategoryRepository;
+import com.javaexpert.dscatalog.services.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,7 @@ public class CategoryService {
 
     public CategoryDTO findById(Long id) {
         Optional<Category> category = categoryRepository.findById(id);
-        return new CategoryDTO(category.get());
+        Category entity = category.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+        return new CategoryDTO(entity);
     }
 }
